@@ -19,7 +19,6 @@ const app = express();
 
 const PORT = process.env.PORT || 5000;
 
-
 /*
 |--------------------------------------------------------------------------
 | CORS
@@ -35,27 +34,14 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: function (origin, callback) {
-      /*
-       * Allow requests without an Origin header.
-       *
-       * This is useful for direct browser requests,
-       * Postman, server-to-server requests, etc.
-       */
       if (!origin) {
         return callback(null, true);
       }
 
-      /*
-       * Allow localhost frontend.
-       */
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
 
-      /*
-       * Development fallback:
-       * allow localhost / 127.0.0.1 origins.
-       */
       if (
         origin.startsWith("http://localhost:") ||
         origin.startsWith("http://127.0.0.1:")
@@ -69,11 +55,9 @@ app.use(
         new Error("CORS policy: Origin not allowed")
       );
     },
-
     credentials: true,
   })
 );
-
 
 /*
 |--------------------------------------------------------------------------
@@ -83,7 +67,6 @@ app.use(
 
 app.use(express.json());
 
-
 /*
 |--------------------------------------------------------------------------
 | DATABASE
@@ -92,7 +75,6 @@ app.use(express.json());
 
 createTables();
 
-
 /*
 |--------------------------------------------------------------------------
 | ROUTES
@@ -100,25 +82,15 @@ createTables();
 */
 
 app.use("/api/auth", authRoutes);
-
 app.use("/api/users", userRoutes);
-
 app.use("/api/admin", adminRoutes);
-
 app.use("/api/products", productRoutes);
-
 app.use("/api/categories", categoryRoutes);
-
 app.use("/api/cart", cartRoutes);
-
 app.use("/api/wishlist", wishlistRoutes);
-
 app.use("/api/orders", orderRoutes);
-
 app.use("/api/payments", paymentRoutes);
-
 app.use("/api/reviews", reviewRoutes);
-
 
 /*
 |--------------------------------------------------------------------------
@@ -133,7 +105,6 @@ app.get("/", (req, res) => {
   });
 });
 
-
 /*
 |--------------------------------------------------------------------------
 | 404 HANDLER
@@ -145,7 +116,6 @@ app.use((req, res) => {
     message: "API endpoint not found",
   });
 });
-
 
 /*
 |--------------------------------------------------------------------------
@@ -170,15 +140,12 @@ app.use((err, req, res, next) => {
   });
 });
 
-
 /*
 |--------------------------------------------------------------------------
 | START SERVER
 |--------------------------------------------------------------------------
 */
 
-app.listen(PORT, () => {
-  console.log(
-    `Server running on port ${PORT}`
-  );
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on port ${PORT}`);
 });
